@@ -49,6 +49,7 @@ Gregorys-MBP:~ gcolella$ pseudo
     $> display gcd(27, 18)
     >> 9
 
+Additional builtin functions (like mod, floor, and abs() ) exist that are implemented in python. To see these functions and add additional functions to the standard library, see pseudo/standard_lib.py.
 
 
 #OPTIONS
