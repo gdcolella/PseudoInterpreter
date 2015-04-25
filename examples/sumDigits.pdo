@@ -1,0 +1,8 @@
+algorithm sumDigits takes number num
+	if num < 0
+		return sumDigits(abs(num))
+	endif
+	if num == 0
+		return 0
+	endif
+	return ( num % 10) + sumDigits(floor( num / 10))

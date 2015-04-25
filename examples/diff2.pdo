@@ -1,0 +1,23 @@
+algorithm diff2 takes list number nums, number size, number diff
+
+#This is essentially an n^2 search implemented recursively 
+algorithm diff2small takes list number nums, number index1, number index2, number size, number diff
+	if index1 > size
+		return False
+	endif
+	if index2 > size
+		return diff2small(nums, index1 + 1, 1, size, diff)
+	endif
+	
+	# absolute value because this means that nums[index2] - nums[index1] is the diff
+	# program would find it anyway but this way it's faster.
+	if abs(nums[index1] - nums[index2]) == diff 
+		return True
+	endif
+	
+	return diff2small(nums, index1, index2 + 1, size, diff)
+
+endalgorithm
+
+return diff2small(nums, 1, 1, size, diff)
+

@@ -1,0 +1,34 @@
+algorithm BiValued
+number N
+list number List
+get N
+get List
+
+number NumOfZeros
+NumOfZeros := 0
+
+number Index
+Index := 1
+
+while Index <= N
+	if List[Index] == 0
+		NumOfZeros := NumOfZeros + 1
+	endif
+	Index := Index + 1
+endwhile
+
+Index := 1
+
+while Index <= N
+	if NumOfZeros > 0
+		List[Index] := 0
+		NumOfZeros := NumOfZeros - 1
+	else
+		List[Index] := 1
+	endif
+	Index := Index + 1
+endwhile
+
+return List
+
+

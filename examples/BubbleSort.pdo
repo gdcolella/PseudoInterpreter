@@ -1,0 +1,20 @@
+algorithm BubbleSort takes list number InList number Size
+	number Index
+	logical Swapped
+	Swapped := True
+	while Swapped
+		Swapped := False
+		Index := Size
+		while Index > 1
+			if InList[Index] < InList[Index - 1]
+				number Temp
+				Temp := InList[Index]
+				InList[Index] := InList[Index - 1]
+				InList[Index - 1] := Temp
+				Swapped := True
+			endif
+			Index := Index - 1
+		endwhile
+	endwhile
+
+	return InList

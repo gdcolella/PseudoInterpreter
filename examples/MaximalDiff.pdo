@@ -1,0 +1,33 @@
+algorithm MaximalDiff
+number N
+list number List
+get N
+get List
+
+number Lowest
+number Highest
+
+if N == 0
+	display "The list has no elements."
+	return 0
+endif
+
+Lowest := List[1]
+Highest := List[1]
+
+number Index
+Index := 2
+
+while Index <= N
+	if List[Index] < Lowest
+		Lowest := List[Index]
+	endif
+	if List[Index] > Highest
+		Highest := List[Index]
+	endif
+	Index := Index + 1
+endwhile
+
+return Highest - Lowest
+halt
+
