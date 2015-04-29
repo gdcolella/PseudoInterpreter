@@ -30,7 +30,7 @@ class FunctionLibrary:
 				self.define_function(func_identifier, fnc)
 				return fnc
 			else:
-				show_error("No such function {} in functions {}".format(func_identifier, self.functions.keys()))
+				raise Exception("No such function {} in functions {}".format(func_identifier, self.functions.keys()))
 	def define_function(self, func_identifier, func_object):
 		self.functions[func_identifier] = func_object
 
@@ -47,6 +47,7 @@ def load_from_file(fname):
 	fl = open(fle, 'r')
 	parsed = function.parseFile(fle)
 	func = parse_next(parsed)
+	fl.close()
 	return func
 
 

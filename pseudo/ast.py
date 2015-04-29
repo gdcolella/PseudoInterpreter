@@ -95,6 +95,7 @@ class Algorithm:
 
 	def apply_function(self, arguments):
 		bareCtx = ExecutionContext(None, self)
+		self.execute(bareCtx)
 		for i, d in enumerate(self.declarations):
 			bareCtx.initialize_variable(d.vn, self)
 			val = arguments[i]

@@ -16,7 +16,7 @@ import pseudo.context as context
 def execute_algorithm(input_string, *arguments):
 	tokenized = pdo_parser.function.parseString(input_string)
 	code = ast.parse_next(tokenized)
-	return code.apply_function(*arguments)
+	return code.apply_function(arguments)
 
 #print(bubblesort)
 if __name__ == "__main__":

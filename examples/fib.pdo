@@ -1,0 +1,5 @@
+algorithm fib takes number N	
+	if (N == 1) OR (N == 0)
+		return 1
+	endif
+	return fib(N-2) + fib(N-1)

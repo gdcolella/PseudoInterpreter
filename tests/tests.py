@@ -1,113 +1,115 @@
+import unittest
+from pseudo import main as pseudo
 
-from pseudo2 import *
+# For these tests, write outputs to n.
+def wrap_code(in_text):
+	pre = """algorithm testAssignment
+		number n"""
+	post = """
+		return n"""
+	return pre + in_text + post
 
-#################### TESTS
-
-t1 = "x := 31 + 42.2 + (x / 2) + 3"
-#print(t1)
-#print(line.parseString(t1))
-
-t2 = "foo[ bar[1]] :=3"
-t3 = "foo[bar[1] - 3] := 1 + 2 + 3 * bar[2]"
-
-print(">>"+t2)
-print(listAssignment.parseString("foo[ bar[1]] := 3") )
-print(">>"+t3)
-print(listAssignment.parseString("foo[bar[1] - 3] := 1 + 2 + 3 * bar[2]"))
-
-duowhile = """
-while x > 2
-  x := x + 1
-  foo[x] := x * x
-  while x >= 3
-    display x
-  endwhile
-endwhile
-"""
-print(duowhile)
-print(line.parseString(duowhile))
+class TestAssignmentMethods(unittest.TestCase):	
+	def test_assignment(self):
+		alg = wrap_code("""
+		n := 5
+		""")
+		self.assertEqual(pseudo.execute_algorithm(alg), 5);
 	
+	def test_while(self):
+		alg = wrap_code("""
+			n := 0
+			number x
+			x := 0
+			while(x < 10)
+				n := n + x 
+				x := x + 1
+			endwhile
+			""")
+		self.assertEqual(pseudo.execute_algorithm(alg), 45)
 
-if1 = """while x > 3
-	x := x * foo[x+1]
-	if x > 4
-		while x < 2
-			y := x + y
-			foo[y] := foo[ 2 - bar[ y + 1] ]
-			if y < 2
-				display y
-			endif
-		endwhile
-	endif
-endwhile
-"""
+	def test_bubble_sort(self):
+		bubble = """
+				algorithm BubbleSort takes list number InList number Size
+					number Index
+					logical Swapped
+					Swapped := True
+					while Swapped
+						Swapped := False
+						Index := Size
+						while Index > 1
+							if InList[Index] < InList[Index - 1]
+								number Temp
+								Temp := InList[Index]
+								InList[Index] := InList[Index - 1]
+								InList[Index - 1] := Temp
+								Swapped := True
+							endif
+							Index := Index - 1
+						endwhile
+					endwhile
 
-print(if1)
-print(line.parseString(if1))
+					return InList"""
+		self.assertEqual( pseudo.execute_algorithm(bubble, [2, -1, 5, 3, 10, 7, 4], 7), [-1, 2, 3, 4, 5, 7, 10])
 
-decls = """
-if x > 1
-	list string foo
-	number bar
-	list logical baz
-endif
-"""
+	def test_list_indexing(self):
+		alg = wrap_code("""
+			list number nx
+			nx := [0,1,2,3,4,5]
+			n := nx[1] 
+			""")
+		self.assertEqual(pseudo.execute_algorithm(alg), 0)
 
-#print(decls)
-#print(line.parseString(decls))
+	def test_nested_indexing(self):
+		alg = wrap_code("""
+			list number nx
+			nx := [0,1,2,3,4,5]
+			n := nx[ nx[ 4 ] - 1 ]
+			""")
+		self.assertEqual(pseudo.execute_algorithm(alg), 1)
 
-rs = line.parseString(if1)
+	def test_recursion(self):
+		fibb = """
+			algorithm fib takes number N
+				if (N == 1) OR (N == 0)
+					return 1
+				endif
+				return fib(N-2) + fib(N-1)
+			"""
+		self.assertEqual(pseudo.execute_algorithm(fibb, 15), 987)
+
+	def test_function_calls(self):
+		alg = wrap_code("""
+			n := floor(5.99)
+			""")
+		self.assertEqual(pseudo.execute_algorithm(alg), 5)	
 
 
-t3 = """
-algorithm Factorial takes number N
-	number Accumulate
-	Accumulate := 1
-	list number B
-	get B
-	B[N + 1] := 2
-	display B
-	if N < 3
-		display N
-	endif
-	while N > 1
-		Accumulate := Accumulate * N
-		N := N - 1
-	endwhile
-	while N < 2
-		Accumulate := Accumulate + 1
-		N := N + 1
-	endwhile
-	display Accumulate
-"""
-print(t3)
-#print(function.parseString(t3))
 
-parsed = function.parseString(t3)
-ast = parse_next(parsed)
-print(ast.pretty_print(0))
-ast.run_as_main(None)
+	def test_current_directory_load(self):
+		import os
+		alg = """
+		algorithm factorial takes number N
+		if N == 1
+			return 1	
+		endif
+		return N * factorial(N - 1)
+		"""
+		fl = open('factorial.pdo', 'w')
+		fl.write(alg)
+		fl.flush()
+		fl.close()
+		runner = wrap_code("""
+			n := factorial(5)
+			""")
+		self.assertEqual(pseudo.execute_algorithm(runner), 120 )
+		os.remove('factorial.pdo')
 
-bubblesort = """
-algorithm BubbleSort takes list number InList number Size
-	number Index
-	logical Swapped
-	Swapped := True
 
-	while Swapped
-		Swapped := False
-		Index := Size
-		while Index > 1
-			if InList[Index] < InList[Index - 1]
-				number Temp
-				Temp := InList[Index]
-				InList[Index] := InList[Index - 1]
-				InList[Index - 1] := Temp
-				Swapped := True
-			endif
-			Index := Index - 1
-		endwhile
-	endwhile
 
-	display InList
-"""
+
+
+
+		
+if __name__ == '__main__':
+	unittest.main()
